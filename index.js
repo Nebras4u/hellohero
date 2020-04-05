@@ -1,14 +1,27 @@
-const http = require('http');
+var express = require('express');
+var app = express();
 
-const hostname = '127.0.0.1';
-const port = 3000;
+require('dotenv').config()
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World');
+app.set('port', (process.env.PORT || 5000));
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/public');
+
+app.get('/', function(request, response) {
+  var env = process.env.APP_ENV;
+  if (env == 'staging') {
+    var envName = 'staging'
+  } else if (env == 'production') {
+    var envName = 'production'
+  } else {
+    var envName = 'review app'
+  }
+  response.render('index.html', { env: envName});
 });
 
-server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+app.listen(app.get('port'), function() {
+  console.log("Node app running at localhost:" + app.get('port'));
 });
+
+module.exports = app
