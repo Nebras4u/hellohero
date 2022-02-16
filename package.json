@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "mocha --reporter tap"
+    "start": "node index.js"
   },
   "dependencies": {
     "chai": "^3.5.0",
